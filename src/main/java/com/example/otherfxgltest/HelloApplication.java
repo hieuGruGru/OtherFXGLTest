@@ -13,9 +13,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import java.awt.*;
 import java.util.Map;
 
+import static com.example.otherfxgltest.Constants.Constants.*;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class HelloApplication extends GameApplication {
@@ -28,15 +28,22 @@ public class HelloApplication extends GameApplication {
 
     @Override
     protected void initInput() {
-        onKey(KeyCode.W, () -> player.getComponent(PhysicsComponent.class).setVelocityY(-160));
-        onKey(KeyCode.S, () -> player.getComponent(PhysicsComponent.class).setVelocityY(160));
-        onKey(KeyCode.A, () -> player.getComponent(PhysicsComponent.class).setVelocityX(-160));
-        onKey(KeyCode.D, () -> player.getComponent(PhysicsComponent.class).setVelocityX(160));
-        onBtnDown(MouseButton.SECONDARY, () -> {
-            player.getComponent(PhysicsComponent.class).setVelocityX(0);
-            player.getComponent(PhysicsComponent.class).setVelocityY(0);
+        onKey(KeyCode.A, "Move Left", () -> {
+            player.getComponent(PlayerComponent.class).left();
         });
-        onBtnDown(MouseButton.PRIMARY, () ->
+        onKey(KeyCode.W, "Move Up", () -> {
+            player.getComponent(PlayerComponent.class).up();
+        });
+        onKey(KeyCode.S, "Move Down", () -> {
+            player.getComponent(PlayerComponent.class).down();
+        });
+        onKey(KeyCode.D, "Move Right", () -> {
+            player.getComponent(PlayerComponent.class).right();
+        });
+        onKey(KeyCode.SPACE, "Stop" ,() -> {
+            player.getComponent(PlayerComponent.class).stop();
+        });
+        onBtnDown(MouseButton.PRIMARY, "Fire", () ->
                 spawn("bullet", player.getCenter()));
     }
 
@@ -49,6 +56,7 @@ public class HelloApplication extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("score", 0);
+        vars.put("playerSpeed", PLAYER_SPEED);
     }
 
     @Override
@@ -64,7 +72,7 @@ public class HelloApplication extends GameApplication {
     protected void initUI() {
         Label scoreLabel = new Label();
         scoreLabel.setTextFill(Color.BLACK);
-        scoreLabel.setFont(Font.font(10.0));
+        scoreLabel.setFont(Font.font(UI_FONT_SIZE));
         scoreLabel.textProperty().bind(FXGL.getip("score").asString("Score: %d"));
         FXGL.addUINode(scoreLabel, 0, 0);
     }

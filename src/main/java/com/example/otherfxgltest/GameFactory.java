@@ -1,6 +1,5 @@
 package com.example.otherfxgltest;
 
-import com.almasb.fxgl.dsl.EntityBuilder;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
@@ -47,8 +46,9 @@ public class GameFactory implements EntityFactory {
         return entityBuilder()
                 .from(data)
                 .type(EntityType.PLAYER)
-                .viewWithBBox("player.png")
+                .viewWithBBox("poro.png")
                 .with(physics)
+                .with(new PlayerComponent())
                 .with(new CollidableComponent(true))
                 .build();
     }
