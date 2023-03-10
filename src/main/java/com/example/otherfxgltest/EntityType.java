@@ -1,5 +1,5 @@
 package com.example.otherfxgltest;
 
 public enum EntityType {
-    PLAYER, BULLET, BRICK, WALL
+    PLAYER, FRUIT, MONSTER, BULLET, BRICK, WALL
 }

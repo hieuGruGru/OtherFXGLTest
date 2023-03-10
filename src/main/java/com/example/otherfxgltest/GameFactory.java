@@ -29,7 +29,7 @@ public class GameFactory implements EntityFactory {
     @Spawns("background")
     public Entity newBackground(SpawnData data) {
         return entityBuilder()
-                .view(new Rectangle(20 * 64, 15 * 64, Color.rgb(0, 125, 0)))
+                .view(new Rectangle(30 * 32, 20 * 32, Color.rgb(255, 206, 222)))
                 .zIndex(-100)
                 .with(new IrremovableComponent())
                 .build();
@@ -85,9 +85,32 @@ public class GameFactory implements EntityFactory {
         return entityBuilder()
                 .from(data)
                 .type(EntityType.BRICK)
-                .viewWithBBox(new Rectangle(64, 64, Color.BLACK))
+                .viewWithBBox("brick.png")
                 .collidable()
                 .with(new PhysicsComponent())
                 .build();
     }
+
+    @Spawns("fruit")
+    public Entity newFruit(SpawnData data) {
+        return entityBuilder()
+                .from(data)
+                .type(EntityType.FRUIT)
+                .viewWithBBox(new Circle(30, Color.YELLOW))
+                .collidable()
+                .with(new PhysicsComponent())
+                .build();
+    }
+
+    @Spawns("monster")
+    public Entity newMonster(SpawnData data) {
+        return entityBuilder()
+                .from(data)
+                .type(EntityType.MONSTER)
+                .viewWithBBox(new Rectangle(32, 32, Color.RED))
+                .collidable()
+                .with(new PhysicsComponent())
+                .build();
+    }
+
 }
