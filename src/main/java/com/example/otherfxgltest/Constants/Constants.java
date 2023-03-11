@@ -14,5 +14,5 @@ public class Constants {
     public static final double MAX_VOLUME = 0.3;
 
     public static final int PLAYER_SPEED = 100;
-    public static final int ENEMY_SPEED = 80;
+    public static final int ENEMY_SPEED = 100;
 }

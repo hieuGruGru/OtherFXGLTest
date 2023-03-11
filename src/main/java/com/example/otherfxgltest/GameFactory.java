@@ -14,9 +14,10 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
+import com.example.otherfxgltest.Components.Enemy.EnemyComponent;
+import com.example.otherfxgltest.Components.PlayerComponent;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
@@ -91,23 +92,25 @@ public class GameFactory implements EntityFactory {
                 .build();
     }
 
-    @Spawns("fruit")
-    public Entity newFruit(SpawnData data) {
-        return entityBuilder()
-                .from(data)
-                .type(EntityType.FRUIT)
-                .viewWithBBox(new Circle(30, Color.YELLOW))
-                .collidable()
-                .with(new PhysicsComponent())
-                .build();
-    }
-
     @Spawns("monster")
     public Entity newMonster(SpawnData data) {
         return entityBuilder()
                 .from(data)
                 .type(EntityType.MONSTER)
-                .viewWithBBox(new Rectangle(32, 32, Color.RED))
+                .bbox(new HitBox(BoundingShape.box(20, 20)))
+                .with(new EnemyComponent(data.get("type"), data.getX(), data.getY()))
+                .collidable()
+                .with(new PhysicsComponent())
+                .build();
+    }
+
+    @Spawns("devil")
+    public Entity newDevil(SpawnData data) {
+        return entityBuilder()
+                .from(data)
+                .type(EntityType.DEVIL)
+                .bbox(new HitBox(BoundingShape.box(20, 20)))
+                .with(new EnemyComponent(data.get("type"), data.getX(), data.getY()))
                 .collidable()
                 .with(new PhysicsComponent())
                 .build();

@@ -1,4 +1,4 @@
-package com.example.otherfxgltest;
+package com.example.otherfxgltest.Components;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
@@ -8,12 +8,13 @@ import com.almasb.fxgl.texture.AnimationChannel;
 import javafx.util.Duration;
 
 public class PlayerComponent extends Component {
-    private final AnimatedTexture texture;
-    private final AnimationChannel left;
-    private final AnimationChannel right;
-    private final AnimationChannel upDown;
-    private final AnimationChannel stop;
-    private PhysicsComponent physicsComponent;
+        private static final double speed = FXGL.geti("playerSpeed");
+        private final AnimatedTexture texture;
+        private final AnimationChannel left;
+        private final AnimationChannel right;
+        private final AnimationChannel upDown;
+        private final AnimationChannel stop;
+        private PhysicsComponent physicsComponent;
 
     public PlayerComponent() {
         left = new AnimationChannel(FXGL.image("poro--left.png"), Duration.seconds(0.5), 4);
@@ -30,28 +31,28 @@ public class PlayerComponent extends Component {
     }
 
     public void left() {
-        physicsComponent.setVelocityX(-FXGL.geti("playerSpeed"));
+        physicsComponent.setVelocityX(-speed);
         if (texture.getAnimationChannel() != left) {
             texture.loopAnimationChannel(left);
         }
     }
 
     public void right() {
-        physicsComponent.setVelocityX(FXGL.geti("playerSpeed"));
+        physicsComponent.setVelocityX(speed);
         if (texture.getAnimationChannel() != right) {
             texture.loopAnimationChannel(right);
         }
     }
 
     public void up() {
-        physicsComponent.setVelocityY(-FXGL.geti("playerSpeed"));
+        physicsComponent.setVelocityY(-speed);
         if (texture.getAnimationChannel() != upDown) {
             texture.loopAnimationChannel(upDown);
         }
     }
 
     public void down() {
-        physicsComponent.setVelocityY(FXGL.geti("playerSpeed"));
+        physicsComponent.setVelocityY(speed);
         if (texture.getAnimationChannel() != upDown) {
             texture.loopAnimationChannel(upDown);
         }

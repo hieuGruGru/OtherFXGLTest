@@ -6,7 +6,8 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.level.Level;
 import com.almasb.fxgl.entity.level.tiled.TMXLevelLoader;
-import com.almasb.fxgl.physics.PhysicsComponent;
+import com.example.otherfxgltest.Components.Enemy.EnemyComponent;
+import com.example.otherfxgltest.Components.PlayerComponent;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -50,13 +51,14 @@ public class HelloApplication extends GameApplication {
     @Override
     protected void initSettings(GameSettings gameSettings) {
         gameSettings.setWidth(30 * 32);
-        gameSettings.setHeight(20 * 32);
+        gameSettings.setHeight(20 * 32 + 20);
     }
 
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("score", 0);
         vars.put("playerSpeed", PLAYER_SPEED);
+        vars.put("enemySpeed", ENEMY_SPEED);
     }
 
     @Override
@@ -74,7 +76,7 @@ public class HelloApplication extends GameApplication {
         scoreLabel.setTextFill(Color.BLACK);
         scoreLabel.setFont(Font.font(UI_FONT_SIZE));
         scoreLabel.textProperty().bind(FXGL.getip("score").asString("Score: %d"));
-        FXGL.addUINode(scoreLabel, 0, 0);
+        FXGL.addUINode(scoreLabel, 0, 20 * 32);
     }
 
     @Override
@@ -93,6 +95,12 @@ public class HelloApplication extends GameApplication {
             FXGL.inc("score", 15);
         });
 
+        onCollisionBegin(EntityType.BULLET, EntityType.DEVIL, (bullet, devil) -> {
+            bullet.removeFromWorld();
+            devil.removeFromWorld();
+            FXGL.inc("score", 10);
+        });
+
         onCollisionBegin(EntityType.BULLET, EntityType.WALL, (bullet, wall) -> {
             bullet.removeFromWorld();
         });
@@ -101,12 +109,20 @@ public class HelloApplication extends GameApplication {
             player.removeFromWorld();
         });
 
-        onCollisionBegin(EntityType.PLAYER, EntityType.FRUIT, (player, fruit) -> {
-            fruit.removeFromWorld();
-        });
-
         onCollisionBegin(EntityType.PLAYER, EntityType.MONSTER, (player, monster) -> {
             player.removeFromWorld();
+        });
+
+        onCollisionBegin(EntityType.PLAYER, EntityType.DEVIL, (player, devil) -> {
+            player.removeFromWorld();
+        });
+
+        onCollisionBegin(EntityType.WALL, EntityType.DEVIL, (wall, devil) -> {
+            devil.getComponent(EnemyComponent.class).turn();
+        });
+
+        onCollisionBegin(EntityType.WALL, EntityType.MONSTER, (wall, monster) -> {
+            monster.getComponent(EnemyComponent.class).turn();
         });
     }
 }
